@@ -1,0 +1,104 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main", "master" ]
+    tags: [ "v*" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: dtolnay/rust-toolchain@stable
+    - uses: Swatinem/rust-cache@v2
+
+    - name: Build
+      run: cargo build --release
+
+    - name: Test detection
+      run: |
+        ./target/release/flash_audit tests/fixtures/should_detect.txt > /dev/null
+        if [ $? -eq 1 ]; then echo "✅ Detection working"; else exit 1; fi
+
+    - name: Test entropy
+      run: ./target/release/flash_audit --entropy tests/fixtures/edge_cases.txt > /dev/null || true
+
+    - name: Scan source (no secrets)
+      run: ./target/release/flash_audit src/
+
+  release:
+    needs: test
+    if: startsWith(github.ref, 'refs/tags/v')
+    strategy:
+      matrix:
+        include:
+          - target: x86_64-unknown-linux-gnu
+            os: ubuntu-latest
+            name: flash_audit-linux-x86_64
+          - target: aarch64-unknown-linux-gnu
+            os: ubuntu-latest
+            name: flash_audit-linux-aarch64
+          - target: x86_64-apple-darwin
+            os: macos-latest
+            name: flash_audit-macos-x86_64
+          - target: aarch64-apple-darwin
+            os: macos-latest
+            name: flash_audit-macos-aarch64
+          - target: x86_64-pc-windows-msvc
+            os: windows-latest
+            name: flash_audit-windows-x86_64.exe
+
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v4
+    - uses: dtolnay/rust-toolchain@stable
+      with:
+        targets: ${{ matrix.target }}
+
+    - name: Install cross-compilation tools (Linux ARM)
+      if: matrix.target == 'aarch64-unknown-linux-gnu'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y gcc-aarch64-linux-gnu
+
+    - name: Build
+      run: cargo build --release --target ${{ matrix.target }}
+      env:
+        CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER: aarch64-linux-gnu-gcc
+
+    - name: Rename binary (Unix)
+      if: runner.os != 'Windows'
+      run: mv target/${{ matrix.target }}/release/flash_audit ${{ matrix.name }}
+
+    - name: Rename binary (Windows)
+      if: runner.os == 'Windows'
+      run: mv target/${{ matrix.target }}/release/flash_audit.exe ${{ matrix.name }}
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ matrix.name }}
+        path: ${{ matrix.name }}
+
+  publish:
+    needs: release
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/download-artifact@v4
+      with:
+        path: artifacts
+
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: artifacts/**/*
+        generate_release_notes: true

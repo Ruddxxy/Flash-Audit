@@ -1,0 +1,28 @@
+[package]
+name = "flash_audit"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "High-performance secrets scanner"
+repository = "https://github.com/Ruddxxy/Flash-Audit"
+
+[dependencies]
+clap = { version = "4.4", features = ["derive"] }
+rayon = "1.8"
+memmap2 = "0.9"
+regex = "1.10"
+aho-corasick = "1.1"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+serde_yaml = "0.9"
+anyhow = "1.0"
+ignore = "0.4"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+chrono = "0.4"
+
+[profile.release]
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true

@@ -1,0 +1,311 @@
+rules:
+  # ===================
+  # Private Keys
+  # ===================
+  - id: RSA_PRIVATE_KEY
+    pattern: '-----BEGIN RSA PRIVATE KEY-----'
+    description: "RSA Private Key"
+  - id: OPENSSH_PRIVATE_KEY
+    pattern: '-----BEGIN OPENSSH PRIVATE KEY-----'
+    description: "OpenSSH Private Key"
+  - id: EC_PRIVATE_KEY
+    pattern: '-----BEGIN EC PRIVATE KEY-----'
+    description: "EC Private Key"
+  - id: PGP_PRIVATE_KEY
+    pattern: '-----BEGIN PGP PRIVATE KEY BLOCK-----'
+    description: "PGP Private Key"
+  - id: DSA_PRIVATE_KEY
+    pattern: '-----BEGIN DSA PRIVATE KEY-----'
+    description: "DSA Private Key"
+  - id: PUTTY_PRIVATE_KEY
+    pattern: 'PuTTY-User-Key-File-[0-9]:'
+    description: "PuTTY Private Key"
+
+  # ===================
+  # AWS - must have valid format
+  # ===================
+  - id: AWS_ACCESS_KEY
+    pattern: '(?i)(aws_access_key_id|aws_access_key|access_key_id)\s*[=:]\s*["\x27]?(AKIA[0-9A-Z]{16})["\x27]?'
+    description: "AWS Access Key ID"
+  - id: AWS_SECRET_KEY
+    pattern: '(?i)(aws_secret_access_key|aws_secret_key|secret_access_key)\s*[=:]\s*["\x27]?([A-Za-z0-9/+=]{40})["\x27]?'
+    description: "AWS Secret Access Key"
+
+  # ===================
+  # GitHub - full token format
+  # ===================
+  - id: GITHUB_PAT
+    pattern: 'ghp_[A-Za-z0-9]{36}'
+    description: "GitHub Personal Access Token"
+  - id: GITHUB_OAUTH
+    pattern: 'gho_[A-Za-z0-9]{36}'
+    description: "GitHub OAuth Token"
+  - id: GITHUB_APP_TOKEN
+    pattern: 'ghu_[A-Za-z0-9]{36}'
+    description: "GitHub User Token"
+  - id: GITHUB_SERVER_TOKEN
+    pattern: 'ghs_[A-Za-z0-9]{36}'
+    description: "GitHub Server Token"
+  - id: GITHUB_REFRESH_TOKEN
+    pattern: 'ghr_[A-Za-z0-9]{36}'
+    description: "GitHub Refresh Token"
+
+  # ===================
+  # GitLab
+  # ===================
+  - id: GITLAB_PAT
+    pattern: 'glpat-[A-Za-z0-9\-]{20}'
+    description: "GitLab Personal Access Token"
+  - id: GITLAB_RUNNER
+    pattern: 'GR1348941[A-Za-z0-9\-]{20}'
+    description: "GitLab Runner Token"
+
+  # ===================
+  # Slack - full token format
+  # ===================
+  - id: SLACK_BOT_TOKEN
+    pattern: 'xoxb-[0-9]{10,13}-[0-9]{10,13}-[A-Za-z0-9]{24}'
+    description: "Slack Bot Token"
+  - id: SLACK_USER_TOKEN
+    pattern: 'xoxp-[0-9]{10,13}-[0-9]{10,13}-[A-Za-z0-9]{24}'
+    description: "Slack User Token"
+  - id: SLACK_WEBHOOK
+    pattern: 'https://hooks\.slack\.com/services/T[A-Z0-9]{8}/B[A-Z0-9]{8}/[A-Za-z0-9]{24}'
+    description: "Slack Webhook URL"
+
+  # ===================
+  # Google
+  # ===================
+  - id: GOOGLE_API_KEY
+    pattern: 'AIza[0-9A-Za-z\-_]{35}'
+    description: "Google API Key"
+  - id: GOOGLE_OAUTH_CLIENT
+    pattern: '[0-9]+-[a-z0-9_]{32}\.apps\.googleusercontent\.com'
+    description: "Google OAuth Client ID"
+
+  # ===================
+  # Stripe - full key format
+  # ===================
+  - id: STRIPE_LIVE_SECRET
+    pattern: 'sk_live_[0-9a-zA-Z]{24,}'
+    description: "Stripe Live Secret Key"
+  - id: STRIPE_TEST_SECRET
+    pattern: 'sk_test_[0-9a-zA-Z]{24,}'
+    description: "Stripe Test Secret Key"
+  - id: STRIPE_LIVE_RESTRICTED
+    pattern: 'rk_live_[0-9a-zA-Z]{24,}'
+    description: "Stripe Live Restricted Key"
+
+  # ===================
+  # Database URLs - with credentials
+  # ===================
+  - id: POSTGRES_URI
+    pattern: 'postgres(?:ql)?://[^:]+:[^@]+@[^\s"''<>]+'
+    description: "PostgreSQL Connection with Credentials"
+  - id: MYSQL_URI
+    pattern: 'mysql://[^:]+:[^@]+@[^\s"''<>]+'
+    description: "MySQL Connection with Credentials"
+  - id: MONGODB_URI
+    pattern: 'mongodb(?:\+srv)?://[^:]+:[^@]+@[^\s"''<>]+'
+    description: "MongoDB Connection with Credentials"
+  - id: REDIS_URI
+    pattern: 'redis://[^@\s]+@[^\s"''<>]+'
+    description: "Redis Connection with Credentials"
+
+  # ===================
+  # SendGrid
+  # ===================
+  - id: SENDGRID_API_KEY
+    pattern: 'SG\.[A-Za-z0-9\-_]{22}\.[A-Za-z0-9\-_]{43}'
+    description: "SendGrid API Key"
+
+  # ===================
+  # Twilio
+  # ===================
+  - id: TWILIO_API_KEY
+    pattern: 'SK[0-9a-fA-F]{32}'
+    description: "Twilio API Key"
+  - id: TWILIO_AUTH_TOKEN
+    pattern: '(?i)twilio[_\-]?auth[_\-]?token\s*[=:]\s*["\x27]?([a-f0-9]{32})["\x27]?'
+    description: "Twilio Auth Token"
+
+  # ===================
+  # NPM / PyPI
+  # ===================
+  - id: NPM_TOKEN
+    pattern: 'npm_[A-Za-z0-9]{36}'
+    description: "NPM Access Token"
+  - id: PYPI_TOKEN
+    pattern: 'pypi-[A-Za-z0-9\-_]{50,}'
+    description: "PyPI API Token"
+
+  # ===================
+  # Shopify
+  # ===================
+  - id: SHOPIFY_ACCESS_TOKEN
+    pattern: 'shpat_[a-fA-F0-9]{32}'
+    description: "Shopify Access Token"
+  - id: SHOPIFY_SHARED_SECRET
+    pattern: 'shpss_[a-fA-F0-9]{32}'
+    description: "Shopify Shared Secret"
+
+  # ===================
+  # Square
+  # ===================
+  - id: SQUARE_ACCESS_TOKEN
+    pattern: 'sq0atp-[A-Za-z0-9\-_]{22}'
+    description: "Square Access Token"
+  - id: SQUARE_OAUTH_SECRET
+    pattern: 'sq0csp-[A-Za-z0-9\-_]{43}'
+    description: "Square OAuth Secret"
+
+  # ===================
+  # Discord
+  # ===================
+  - id: DISCORD_BOT_TOKEN
+    pattern: '[MN][A-Za-z\d]{23,}\.[\w-]{6}\.[\w-]{27}'
+    description: "Discord Bot Token"
+  - id: DISCORD_WEBHOOK
+    pattern: 'https://discord(?:app)?\.com/api/webhooks/[0-9]+/[A-Za-z0-9\-_]+'
+    description: "Discord Webhook URL"
+
+  # ===================
+  # Heroku
+  # ===================
+  - id: HEROKU_API_KEY
+    pattern: '(?i)heroku[_\-]?api[_\-]?key\s*[=:]\s*["\x27]?([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})["\x27]?'
+    description: "Heroku API Key"
+
+  # ===================
+  # JWT
+  # ===================
+  - id: JWT_TOKEN
+    pattern: 'eyJ[A-Za-z0-9\-_]+\.eyJ[A-Za-z0-9\-_]+\.[A-Za-z0-9\-_]+'
+    description: "JSON Web Token"
+
+  # ===================
+  # Azure
+  # ===================
+  - id: AZURE_STORAGE_KEY
+    pattern: '(?i)(AccountKey|azure[_-]?storage[_-]?key)\s*[=:]\s*["\x27]?([A-Za-z0-9+/]{86}==)["\x27]?'
+    description: "Azure Storage Account Key"
+  - id: AZURE_CONNECTION_STRING
+    pattern: 'DefaultEndpointsProtocol=https;AccountName=[^;]+;AccountKey=[A-Za-z0-9+/]{86}=='
+    description: "Azure Storage Connection String"
+  - id: AZURE_SAS_TOKEN
+    pattern: '[?&]sig=[A-Za-z0-9%]{43,}%3D'
+    description: "Azure SAS Token"
+  - id: AZURE_CLIENT_SECRET
+    pattern: '(?i)(azure[_-]?client[_-]?secret|aad[_-]?client[_-]?secret)\s*[=:]\s*["\x27]?([A-Za-z0-9\-_.~]{34,})["\x27]?'
+    description: "Azure AD Client Secret"
+
+  # ===================
+  # DigitalOcean
+  # ===================
+  - id: DIGITALOCEAN_TOKEN
+    pattern: 'dop_v1_[a-f0-9]{64}'
+    description: "DigitalOcean Personal Access Token"
+  - id: DIGITALOCEAN_OAUTH
+    pattern: 'doo_v1_[a-f0-9]{64}'
+    description: "DigitalOcean OAuth Token"
+  - id: DIGITALOCEAN_REFRESH
+    pattern: 'dor_v1_[a-f0-9]{64}'
+    description: "DigitalOcean Refresh Token"
+
+  # ===================
+  # Datadog
+  # ===================
+  - id: DATADOG_API_KEY
+    pattern: '(?i)(datadog[_-]?api[_-]?key|dd[_-]?api[_-]?key)\s*[=:]\s*["\x27]?([a-f0-9]{32})["\x27]?'
+    description: "Datadog API Key"
+  - id: DATADOG_APP_KEY
+    pattern: '(?i)(datadog[_-]?app[_-]?key|dd[_-]?app[_-]?key)\s*[=:]\s*["\x27]?([a-f0-9]{40})["\x27]?'
+    description: "Datadog Application Key"
+
+  # ===================
+  # Mailchimp / Mailgun
+  # ===================
+  - id: MAILCHIMP_API_KEY
+    pattern: '[a-f0-9]{32}-us[0-9]{1,2}'
+    description: "Mailchimp API Key"
+  - id: MAILGUN_API_KEY
+    pattern: 'key-[a-zA-Z0-9]{32}'
+    description: "Mailgun API Key"
+
+  # ===================
+  # Cloudflare
+  # ===================
+  - id: CLOUDFLARE_API_KEY
+    pattern: '(?i)(cloudflare[_-]?api[_-]?key|cf[_-]?api[_-]?key)\s*[=:]\s*["\x27]?([a-f0-9]{37})["\x27]?'
+    description: "Cloudflare API Key"
+  - id: CLOUDFLARE_API_TOKEN
+    pattern: '(?i)(cloudflare[_-]?api[_-]?token)\s*[=:]\s*["\x27]?([A-Za-z0-9\-_]{40})["\x27]?'
+    description: "Cloudflare API Token"
+
+  # ===================
+  # Firebase
+  # ===================
+  - id: FIREBASE_API_KEY
+    pattern: 'AIza[0-9A-Za-z\-_]{35}'
+    description: "Firebase/Google API Key"
+  - id: FIREBASE_URL
+    pattern: 'https://[a-z0-9\-]+\.firebaseio\.com'
+    description: "Firebase Database URL"
+
+  # ===================
+  # AI Services
+  # ===================
+  - id: OPENAI_API_KEY
+    pattern: 'sk-[A-Za-z0-9]{48}'
+    description: "OpenAI API Key"
+  - id: ANTHROPIC_API_KEY
+    pattern: 'sk-ant-[A-Za-z0-9\-]{90,}'
+    description: "Anthropic API Key"
+
+  # ===================
+  # HashiCorp Vault
+  # ===================
+  - id: VAULT_TOKEN
+    pattern: 'hvs\.[A-Za-z0-9]{24}'
+    description: "HashiCorp Vault Token"
+  - id: VAULT_SERVICE_TOKEN
+    pattern: 'hvb\.[A-Za-z0-9]{24,}'
+    description: "HashiCorp Vault Batch Token"
+
+  # ===================
+  # Atlassian
+  # ===================
+  - id: ATLASSIAN_API_TOKEN
+    pattern: '(?i)(atlassian[_-]?api[_-]?token|jira[_-]?api[_-]?token)\s*[=:]\s*["\x27]?([A-Za-z0-9]{24})["\x27]?'
+    description: "Atlassian/Jira API Token"
+
+  # ===================
+  # Linear / Notion / Airtable
+  # ===================
+  - id: LINEAR_API_KEY
+    pattern: 'lin_api_[A-Za-z0-9]{40}'
+    description: "Linear API Key"
+  - id: NOTION_TOKEN
+    pattern: 'secret_[A-Za-z0-9]{43}'
+    description: "Notion Integration Token"
+  - id: AIRTABLE_API_KEY
+    pattern: '(?i)(airtable[_-]?api[_-]?key|airtable[_-]?key)\s*[=:]\s*["\x27]?(key[A-Za-z0-9]{14})["\x27]?'
+    description: "Airtable API Key"
+
+  # ===================
+  # Supabase
+  # ===================
+  - id: SUPABASE_KEY
+    pattern: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\.[A-Za-z0-9\-_]+\.[A-Za-z0-9\-_]+'
+    description: "Supabase Service Key (JWT)"
+
+  # ===================
+  # Doppler
+  # ===================
+  - id: DOPPLER_TOKEN
+    pattern: 'dp\.pt\.[A-Za-z0-9]{40,}'
+    description: "Doppler Personal Token"
+  - id: DOPPLER_SERVICE_TOKEN
+    pattern: 'dp\.st\.[A-Za-z0-9]{40,}'
+    description: "Doppler Service Token"
+
