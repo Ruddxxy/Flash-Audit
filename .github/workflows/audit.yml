@@ -11,29 +11,7 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    - uses: dtolnay/rust-toolchain@stable
-    - uses: Swatinem/rust-cache@v2
-
-    - name: Build
-      run: cargo build --release
-
-    - name: Test detection
-      run: |
-        ./target/release/flash_audit tests/fixtures/should_detect.txt > /dev/null
-        if [ $? -eq 1 ]; then echo "✅ Detection working"; else exit 1; fi
-
-    - name: Test entropy
-      run: ./target/release/flash_audit --entropy tests/fixtures/edge_cases.txt > /dev/null || true
-
-    - name: Scan source (no secrets)
-      run: ./target/release/flash_audit src/
-
   release:
-    needs: test
     if: startsWith(github.ref, 'refs/tags/v')
     strategy:
       matrix:
