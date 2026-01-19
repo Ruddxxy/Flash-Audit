@@ -2,6 +2,16 @@
 
 High-performance secrets scanner written in Rust. Enterprise-ready with SARIF output for GitHub Advanced Security.
 
+## License
+
+This project is released under a **Proprietary License** as of version vX.Y.Z.
+
+All rights reserved.  
+No part of this software may be used, modified, distributed, or offered as a service without explicit written permission from the author.
+
+Commercial use, enterprise deployment, redistribution, or SaaS offering requires a paid license.
+Contact: mahapatro32@gmail.com
+
 ## Features
 
 - **Blazing Fast**: Hybrid Aho-Corasick + Regex engine (8x faster than gitleaks)
@@ -189,6 +199,11 @@ git push origin v1.0.0
 
 Builds for: Linux (x86_64, ARM64), macOS (Intel, M1), Windows
 
+
 ## License
 
-MIT
+Proprietary. See `LICENSE` for full terms.
+
+> Note: Versions prior to v1.0.1 were released under different terms.  
+> All versions starting from v1.1.0 are governed by the Proprietary License.
+
