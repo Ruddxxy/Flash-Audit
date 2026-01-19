@@ -4,7 +4,7 @@ High-performance secrets scanner written in Rust. Enterprise-ready with SARIF ou
 
 ## License
 
-This project is released under a **Proprietary License** as of version vX.Y.Z.
+This project is released under a **Proprietary License** as of version v1.1.0.
 
 All rights reserved.  
 No part of this software may be used, modified, distributed, or offered as a service without explicit written permission from the author.
